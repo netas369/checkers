@@ -173,15 +173,107 @@ public class Checkers {
                 break;
             }
 
+            capturePiece(player, cellsGo, in);
             once = false;
             printBoard();
         }
 
         if (once) {
+            movePiece(player, in);
             printBoard();
         }
 
     }
+
+
+    private static void capturePiece(int player, ArrayList<Path> cellsGo, Scanner in) {
+        System.out.print("player " + (player + 1) + " please choose one of the cell(s) that show below for next move : \n");
+        int y = 1;
+
+        for(Iterator var4 = cellsGo.iterator(); var4.hasNext(); ++y) {
+            Path p = (Path)var4.next();
+            System.out.println(y + ". " + (p.getStart().getRow() + 1) + "|" + (p.getStart().getColumn() + 1) + " to " + (p.getEnd().getRow() + 1) + "|" + (p.getEnd().getColumn() + 1));
+        }
+
+        int tmp = in.nextInt();
+        int row1 = ((Path)cellsGo.get(tmp - 1)).getEnd().getRow();
+        int column1 = ((Path)cellsGo.get(tmp - 1)).getEnd().getColumn();
+        board[row1][column1] = board[((Path)cellsGo.get(tmp - 1)).getStart().getRow()][((Path)cellsGo.get(tmp - 1)).getStart().getColumn()];
+        board[((Path)cellsGo.get(tmp - 1)).getStart().getRow()][((Path)cellsGo.get(tmp - 1)).getStart().getColumn()] = ' ';
+        int newRow = (((Path)cellsGo.get(tmp - 1)).getStart().getRow() + row1) / 2;
+        int newCol = (((Path)cellsGo.get(tmp - 1)).getStart().getColumn() + column1) / 2;
+        if (player == 0 && row1 == 7 && board[row1][column1] == 'a') {
+            board[row1][column1] = 'A';
+        }
+
+        if (player == 1 && row1 == 0 && board[row1][column1] == 'b') {
+            board[row1][column1] = 'B';
+        }
+
+        board[newRow][newCol] = ' ';
+    }
+
+    private static void movePiece(int player, Scanner in) {
+        while(true) {
+            System.out.print("player " + (player + 1) + " please enter row of start cell: \n");
+            int startingRow = in.nextInt();
+            System.out.print("player " + (player + 1) + " please enter column of start cell: \n");
+            int startingColumn = in.nextInt();
+            System.out.print("player " + (player + 1) + " please enter row of end cell: \n");
+            int endingRow = in.nextInt();
+            System.out.print("player " + (player + 1) + " please enter column of end cell: \n");
+            int endingColumn = in.nextInt();
+            --startingRow;
+            --startingColumn;
+            --endingRow;
+            --endingColumn;
+            if (startingRow > -1 && startingRow < 8 && startingColumn > -1 && startingColumn < 8 && endingRow > -1 && endingRow < 8 && endingColumn > -1 && endingColumn < 8 && board[endingRow][endingColumn] == ' ') {
+                label131: {
+                    if (player == 0 && board[startingRow][startingColumn] == 'a') {
+                        if (endingRow != startingRow + 1 || endingColumn != startingColumn - 1 && endingColumn != startingColumn + 1) {
+                            break label131;
+                        }
+
+                        board[endingRow][endingColumn] = 'a';
+                        board[startingRow][startingColumn] = ' ';
+                        if (player == 0 && endingRow == 7 && board[endingRow][endingColumn] == 'a') {
+                            board[endingRow][endingColumn] = 'A';
+                        }
+                    } else if (player == 1 && board[startingRow][startingColumn] == 'b') {
+                        if (endingRow != startingRow - 1 || endingColumn != startingColumn - 1 && endingColumn != startingColumn + 1) {
+                            break label131;
+                        }
+
+                        board[endingRow][endingColumn] = 'b';
+                        board[startingRow][startingColumn] = ' ';
+                        if (player == 1 && endingRow == 0 && board[endingRow][endingColumn] == 'b') {
+                            board[endingRow][endingColumn] = 'B';
+                        }
+                    } else if (player == 0 && board[startingRow][startingColumn] == 'A') {
+                        if (endingRow != startingRow - 1 && endingRow != startingRow + 1 || endingColumn != startingColumn - 1 && endingColumn != startingColumn + 1) {
+                            break label131;
+                        }
+
+                        board[endingRow][endingColumn] = 'A';
+                        board[startingRow][startingColumn] = ' ';
+                    } else {
+                        if (player != 1 || board[startingRow][startingColumn] != 'B' || endingRow != startingRow - 1 && endingRow != startingRow + 1 || endingColumn != startingColumn - 1 && endingColumn != startingColumn + 1) {
+                            break label131;
+                        }
+
+                        board[endingRow][endingColumn] = 'B';
+                        board[startingRow][startingColumn] = ' ';
+                    }
+
+                    return;
+                }
+            }
+
+            System.out.println("Invalid path");
+        }
+    }
+
+
 
     public static void main(String[] args) {
         initializeBoard();
@@ -197,6 +289,22 @@ class Cell {
         this.row = r;
         this.col = c;
     }
+
+    public int getRow() {
+        return this.row;
+    }
+
+    public int getColumn() {
+        return this.col;
+    }
+
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public void setCol(int col) {
+        this.col = col;
+    }
 }
 
 class Path {
@@ -206,5 +314,21 @@ class Path {
     Path(Cell s, Cell e) {
         this.start = s;
         this.end = e;
+    }
+
+    public Cell getStart() {
+        return this.start;
+    }
+
+    public Cell getEnd() {
+        return this.end;
+    }
+
+    public void setStart(Cell start) {
+        this.start = start;
+    }
+
+    public void setEnd(Cell end) {
+        this.end = end;
     }
 }
