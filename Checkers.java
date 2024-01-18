@@ -12,7 +12,6 @@ public class Checkers {
     private static final char PLAYER_B_KING = 'B';
     private static char[][] board = new char[8][8];
 
-
     private static void initializeBoard() {
         int i;
         int j;
@@ -45,6 +44,7 @@ public class Checkers {
                 }
             }
         }
+
     }
 
     private static void printBoard() {
@@ -77,6 +77,7 @@ public class Checkers {
 
             System.out.print("+\n");
         }
+
     }
 
     private static void processPlayerTurn(int player, Scanner in) {
@@ -185,7 +186,6 @@ public class Checkers {
 
     }
 
-
     private static void capturePiece(int player, ArrayList<Path> cellsGo, Scanner in) {
         System.out.print("player " + (player + 1) + " please choose one of the cell(s) that show below for next move : \n");
         int y = 1;
@@ -273,11 +273,45 @@ public class Checkers {
         }
     }
 
+    private static boolean checkWinCondition() {
+        int cntA = 0;
+        int cntB = 0;
 
+        for(int i = 0; i < 8; ++i) {
+            for(int j = 0; j < 8; ++j) {
+                if (board[i][j] == 'a' || board[i][j] == 'A') {
+                    ++cntA;
+                }
+
+                if (board[i][j] == 'b' || board[i][j] == 'B') {
+                    ++cntB;
+                }
+            }
+        }
+
+        if (cntA == 0) {
+            System.out.println("Player 2 wins!");
+            return true;
+        } else if (cntB == 0) {
+            System.out.println("Player 1 wins!");
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public static void main(String[] args) {
         initializeBoard();
         printBoard();
+        int player = 0;
+        Scanner in = new Scanner(System.in);
+
+        do {
+            player = player == 0 ? 1 : 0;
+            processPlayerTurn(player, in);
+        } while(!checkWinCondition());
+
+        in.close();
     }
 }
 
