@@ -12,6 +12,9 @@ public class Checkers {
     private static final char PLAYER_B_KING = 'B';
     private static char[][] board = new char[8][8];
 
+    private static CellFactory cellFactory = new ConcreteCellFactory();
+
+
     private static void initializeBoard() {
         int i;
         int j;
@@ -97,7 +100,7 @@ public class Checkers {
                         j = column1;
                     }
 
-                    Cell now = new Cell(i, j);
+                    Cell now = cellFactory.createCell(i, j);
                     if (player == 0 && board[i][j] == 'a') {
                         if (i < 6 && j > 1 && (board[i + 1][j - 1] == 'b' || board[i + 1][j - 1] == 'B') && board[i + 2][j - 2] == ' ') {
                             cellsGo.add(new Path(now, new Cell(i + 2, j - 2)));
@@ -364,5 +367,16 @@ class Path {
 
     public void setEnd(Cell end) {
         this.end = end;
+    }
+}
+
+interface CellFactory {
+    Cell createCell(int row, int col);
+}
+
+class ConcreteCellFactory implements CellFactory {
+    @Override
+    public Cell createCell(int row, int col) {
+        return new Cell(row, col);
     }
 }
