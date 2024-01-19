@@ -2,6 +2,18 @@
 #### By Netas Neverauskas and Dominykas Vaišnoras
 #### This game is Java implementation of the classic Checkers game playable in console. With all the features like king piece and normal piece. The game is playable by choosing the starting row and column ( of the piece you want to move) and then choosing the row and column where you want to move the piece. If you have a chance to strike the enemy, you will have to choose from possible possibilities with which piece to strike. This game requires 2 players, player 1 and player 2.
 
+#
+
+### Team Member Contributions
+#### The checkers game was created by both members effort, together by creating basic board setup, spawning players, checking win condition and etc.
+#### Readme.md file was prepared by both team members equally together with explanation.
+#### Netas Neverauskas: Implemented Singleton Design Pattern, Visitor Design Pattern.
+#### Dominykas Vaisnoras: Implemented Factory Design Pattern, Decorator Design Pattern. 
+
+
+#
+
+
 ## Design patterns implemented in Java console checkers game
 ### Factory Design Pattern
 #### Introduction to Factory Design Pattern
