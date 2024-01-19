@@ -14,6 +14,11 @@ public class Checkers {
 
     private static CellFactory cellFactory = new ConcreteCellFactory();
 
+    private static void highlightCell(Cell cell) {
+        CellVisitor visitor = new HighlightCellVisitor();
+        cell.accept(visitor);
+    }
+
     private Checkers() {
         initializeBoard();
     }
@@ -181,7 +186,7 @@ public class Checkers {
         int y = 1;
         for (Path p : cellsGo) {
             CellDecorator highlightedCell = new HighlightedCellDecorator(p.getEnd());
-            highlightedCell.decorate(); // This will now correctly call the decorate method
+            highlightedCell.decorate();
         }
         int tmp = in.nextInt();
         int row1 = cellsGo.get(tmp - 1).getEnd().getRow();
@@ -265,15 +270,19 @@ public class Checkers {
     public static void main(String[] args) {
         Checkers game = Checkers.getInstance();
         game.printBoard();
+
         int player = 0;
         Scanner in = new Scanner(System.in);
 
         while (true) {
             player = (player == 0) ? 1 : 0;
 
-            processPlayerTurn(player, in);
+            Cell cellToHighlight = new Cell(3, 4);
+            highlightCell(cellToHighlight);
 
-            if (checkWinCondition()) {
+            game.processPlayerTurn(player, in);
+
+            if (game.checkWinCondition()) {
                 break;
             }
         }
@@ -291,6 +300,18 @@ class ConcreteCellFactory implements CellFactory {
     @Override
     public Cell createCell(int row, int col) {
         return new Cell(row, col);
+    }
+}
+
+interface CellVisitor {
+    void visit(Cell cell);
+}
+
+// Concrete Visitor for Highlighting a Cell
+class HighlightCellVisitor implements CellVisitor {
+    @Override
+    public void visit(Cell cell) {
+        System.out.println("Cell at [" + cell.getRow() + ", " + cell.getColumn() + "] is highlighted.");
     }
 }
 
@@ -317,6 +338,10 @@ class Cell {
     public void setCol(int col) {
         this.col = col;
     }
+
+    public void accept(CellVisitor visitor) {
+        visitor.visit(this);
+    }
 }
 
 abstract class CellDecorator extends Cell {
@@ -337,9 +362,7 @@ class HighlightedCellDecorator extends CellDecorator {
 
     @Override
     public void decorate() {
-        // Add highlight functionality
         System.out.println("Cell at [" + getRow() + ", " + getColumn() + "] is highlighted.");
-        // You can add more functionality here, like changing the cell's appearance in the UI if you have one.
     }
 }
 

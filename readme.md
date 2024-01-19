@@ -133,3 +133,62 @@ private static void capturePiece(int player, ArrayList<Path> cellsGo, Scanner in
 #### 3. Single Responsibility Principle: Each class remains focused on its primary responsibility, with additional features being handled by decorators.
 ### Conclusion
 #### The Decorator Design Pattern in the Checkers game adds a powerful way to extend the functionalities of Cell objects, such as highlighting potential moves. This pattern keeps the codebase flexible and maintainable, enabling dynamic feature extension without modifying existing code.
+
+#
+
+### Visitor Design Pattern
+#### The Visitor Design Pattern is a behavioral pattern that allows adding new operations to objects without modifying them. It involves a visitor class that changes the executing algorithm of an element class. This way, new functionalities can be added to a class without changing its structure.
+
+### Implementation in Checkers Game
+#### In the Checkers game, the Visitor Pattern is used to perform operations on Cell objects. This implementation demonstrates how new functionalities (like highlighting cells) can be dynamically added to Cell objects without altering their structure.
+### Code Snippets
+#### Visitor Interface and Concrete Visitor
+```
+interface CellVisitor {
+    void visit(Cell cell);
+}
+
+class HighlightCellVisitor implements CellVisitor {
+    @Override
+    public void visit(Cell cell) {
+        System.out.println("Cell at [" + cell.getRow() + ", " + cell.getColumn() + "] is highlighted.");
+    }
+}
+```
+#### CellVisitor is an interface declaring the visit method, and HighlightCellVisitor is a concrete class implementing this interface. It defines the action to be performed on Cell objects.
+#### Cell Class with Accept Method
+```
+class Cell {
+    private int row, col;
+
+    Cell(int r, int c) {
+        this.row = r;
+        this.col = c;
+    }
+
+    public void accept(CellVisitor visitor) {
+        visitor.visit(this);
+    }
+
+    // Getters and setters
+}
+```
+#### The Cell class includes an accept method that takes a CellVisitor as an argument. This method allows CellVisitor objects to visit the Cell instance.
+#### Using Visitor in Game Logic
+```
+public static void highlightCell(Cell cell) {
+    CellVisitor visitor = new HighlightCellVisitor();
+    cell.accept(visitor);
+}
+
+// Example usage within the game
+Cell cellToHighlight = new Cell(3, 4);
+highlightCell(cellToHighlight);
+```
+#### The highlightCell method demonstrates how the Visitor Pattern is used. It creates a HighlightCellVisitor and passes it to the Cell object. The Cell object then accepts the visitor, which performs the highlight operation.
+### Advantages
+#### 1. Separation of Concerns: The Visitor Pattern separates an algorithm from the object structure, leading to a more organized code structure.
+#### 2. Extendability: It's easy to add new operations to existing object structures without modifying them.
+#### 3. Single Responsibility Principle: Each class and visitor adheres to the Single Responsibility Principle, making the codebase more maintainable.
+### Conclusion
+#### The Visitor Design Pattern in the Checkers game facilitates adding new functionalities like highlighting cells dynamically. It exemplifies how to extend operations on objects without needing to modify the object's structure, thereby maintaining code flexibility and extendability.
