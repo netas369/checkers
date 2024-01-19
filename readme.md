@@ -1,7 +1,7 @@
 # Classic Console Java Checkers game
 #### By Netas Neverauskas and Dominykas Vaišnoras
 #### This game is Java implementation of the classic Checkers game playable in console. With all the features like king piece and normal piece. The game is playable by choosing the starting row and column ( of the piece you want to move) and then choosing the row and column where you want to move the piece. If you have a chance to strike the enemy, you will have to choose from possible possibilities with which piece to strike. This game requires 2 players, player 1 and player 2.
-
+#### GitHub: https://github.com/netas369/checkers
 #
 
 ### Team Member Contributions
