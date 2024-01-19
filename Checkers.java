@@ -14,6 +14,18 @@ public class Checkers {
 
     private static CellFactory cellFactory = new ConcreteCellFactory();
 
+    private static Checkers instance; // Singleton instance
+
+    private Checkers() {
+        initializeBoard();
+    }
+
+    public static Checkers getInstance() {
+        if (instance == null) {
+            instance = new Checkers();
+        }
+        return instance;
+    }
 
     private static void initializeBoard() {
         int i;
@@ -304,8 +316,8 @@ public class Checkers {
     }
 
     public static void main(String[] args) {
-        initializeBoard();
-        printBoard();
+        Checkers game = Checkers.getInstance();
+        game.printBoard();
         int player = 0;
         Scanner in = new Scanner(System.in);
 

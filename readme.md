@@ -1,4 +1,5 @@
 #### Contributors: Netas Neverauskas and Dominykas Vaišnoras
+#### This game is Java implementation of the classic Checkers game playable in console. With all the features like king piece and normal piece. The game is playable by choosing the starting row and column ( of the piece you want to move) and then choosing the row and column where you want to move the piece. If you have a chance to strike the enemy, you will have to choose from possible possibilities with which piece to strike. This game requires 2 players, player 1 and player 2.
 
 ## Design patterns implemented in Java console checkers game
 ### Factory Design Pattern
@@ -11,7 +12,7 @@
 ### Components
 #### CellFactory Interface: Defines the contract for creating new Cell objects.
 #### ConcreteCellFactory Class: Implements the CellFactory interface, providing the logic for creating Cell instances.
-## Code Snippets
+### Code Snippets
 ### CellFactory Interface
 #### The CellFactory interface declares the createCell method. This method signature allows for creating Cell objects.
 ```
@@ -35,3 +36,6 @@ class ConcreteCellFactory implements CellFactory {
 #### 1.Abstraction: The Factory Pattern abstracts the process of object creation, making the codebase more flexible and easier to manage.
 #### 2.Extensibility: It's easier to introduce new types of Cell objects without changing the existing codebase.
 #### 3.Single Responsibility Principle: The creation logic is kept separate from the main business logic of the application.
+
+#
+
